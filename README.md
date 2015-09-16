@@ -3,7 +3,9 @@
 
 # Instalation
 
-This package require https://sky.pingpong-labs.com/docs/2.0/installation
+This package require:
+-> https://sky.pingpong-labs.com/docs/2.0/installation
+-> http://laravelcollective.com/docs/5.0/html
 
 
 In your modules folder run:

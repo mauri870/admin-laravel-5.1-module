@@ -15,6 +15,9 @@
     <!-- Morris Charts CSS -->
     <link href="{{ Module::asset('admin:css/plugins/morris.css') }}" rel="stylesheet">
 
+    <!-- Sweetalert CSS -->
+    <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 
@@ -135,7 +138,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{ $user }} <b
                             class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <li>
@@ -155,7 +158,28 @@
                     <a href="{{ route('admin.index') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#ofertas"><i
+                                class="fa fa-fw fa-gift"></i> Ofertas <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="ofertas" class="collapse">
+                        <li>
+                            <a href="{{ route('admin.offers') }}"><i class="fa fa-fw fa-eye"></i> Ver ofertas</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.new_offer') }}"><i class="fa fa-fw fa-plus"></i> Nova oferta</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#galeria"><i
+                                class="fa fa-fw fa-gift"></i> Galeria <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="galeria" class="collapse">
+                        <li>
+                            <a href="{{ route('admin.offers') }}"><i class="fa fa-fw fa-eye"></i> Ver galeria</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.new_offer') }}"><i class="fa fa-fw fa-plus"></i> Novo</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
@@ -201,31 +225,16 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Dashboard
-                        <small>Statistics Overview</small>
+                        <small>{{ $page_name }}</small>
                     </h1>
                     <ol class="breadcrumb">
                         <li class="active">
-                            <i class="fa fa-dashboard"></i> Dashboard
+                            <i class="fa fa-dashboard"></i> Dashboard <small>{{ ' / '.$page_name }}</small>
                         </li>
                     </ol>
                 </div>
             </div>
             <!-- /.row -->
-
-            <div class="row">
-                <div class="col-lg-12">
-                    @foreach (Alert::getMessages() as $type => $messages)
-                        @foreach ($messages as $message)
-                            <div class="alert alert-{{ ($type == 'error' ? 'danger' : $type) }}">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                {{ $message }}
-                            </div>
-                        @endforeach
-                    @endforeach
-                </div>
-            </div>
-            <!-- /.row -->
-
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
@@ -322,6 +331,40 @@
             </div>
             <!-- /.row -->
 
+            <div class="row">
+                <div class="col-lg-12">
+                    @if(Session::has('success'))
+                        <p class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert"
+                               aria-label="close">&times;</a>
+                            {{ Session::get('success') }}
+                        </p>
+                    @endif
+                    @unless($errors->isEmpty())
+                        <ul style="list-style: none;">
+                            @foreach($errors->getMessages() as $error)
+                                <li>
+                                    <p class="alert alert-danger">
+                                        <a href="#" class="close" data-dismiss="alert"
+                                           aria-label="close">&times;</a>
+                                        {{ $error[0] }}
+                                    </p>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endunless
+                    @foreach (Alert::getMessages() as $type => $messages)
+                        @foreach ($messages as $message)
+                            <div class="alert alert-{{ ($type == 'error' ? 'danger' : $type) }}">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {{ $message }}
+                            </div>
+                        @endforeach
+                    @endforeach
+                </div>
+            </div>
+            <!-- /.row -->
+
             @yield('content')
 
 
@@ -340,9 +383,29 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
+<script src="{{ asset('js/sweetalert.min.js') }}"></script>
+
 <!-- Morris Charts JavaScript -->
 <script src="{{ Module::asset('admin:js/plugins/morris/raphael.min.js') }}"></script>
 <script src="{{ Module::asset('admin:js/plugins/morris/morris.min.js') }}"></script>
 <script src="{{ Module::asset('admin:js/plugins/morris/morris-data.js') }}"></script>
+
+<script>
+    function click_del(url) {
+        swal({
+                    title: "Aviso",
+                    text: "Tem certeza?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sim, tenho!",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false
+                },
+                function(){
+                    window.location.href = url;
+                });
+    }
+</script>
 
 </html>
