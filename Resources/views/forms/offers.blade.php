@@ -33,7 +33,7 @@
     </div>
 </div>
 <div class="form-group">
-    {!! Form::label('link_offerr','Link para a oferta (opcional)',['class'=>'col-sm-2 control-label']) !!}
+    {!! Form::label('link_offer','Link para a oferta (opcional)',['class'=>'col-sm-2 control-label']) !!}
 
     <div class="col-sm-10">
             {!! Form::text('link_offer',null,['placeholder'=>'Link para a oferta','class'=>'form-control']) !!}

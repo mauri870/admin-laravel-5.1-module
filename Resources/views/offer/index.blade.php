@@ -3,14 +3,18 @@
 @section('content')
 
     <h2>Ofertas Cadastradas</h2>
+    @if($offers->count() == 0)
+        <h2 class="btn-lg label-warning">Você não tem nenhuma oferta cadastrada!</h2>
+        <a  href="{{ route('offer.add') }}"><button class="btn btn-info"><i class="fa fa-plus"></i> Nova Oferta</button></a>
+    @endif
     @foreach($offers as $offer)
     <div class="item  col-xs-4 col-lg-4">
         <div class="thumbnail">
             <img class="img-responsive" style="width: auto; height:300px !important" src="{{ asset('img/offers/'.$offer->id.'.'.$offer->img_ext) }}"
                  alt=""/>
 
-            <div class="caption">
-                <h4 class="group inner list-group-item-heading">
+            <div class="caption" style="word-wrap: break-word;">
+                <h4 class="list-group-item-heading">
                     {{ $offer->name }}</h4>
 
                 <p class="group inner list-group-item-text">
@@ -35,8 +39,8 @@
                     </div>
                     <div class="col-xs-12 col-md-6">
                         <div class="btn-group">
-                            <a href="{{ route('admin.edit_offer',$offer->id) }}"><button type="button" class="btn btn-default">Editar</button></a>
-                            <a onclick="click_del('{{ route('admin.delete_offer',$offer->id) }}')"><button type="button" class="btn btn-danger">Excluir</button></a>
+                            <a href="{{ route('offer.edit',$offer->id) }}"><button type="button" class="btn btn-default">Editar</button></a>
+                            <a onclick="click_del('{{ route('offer.delete',$offer->id) }}')"><button type="button" class="btn btn-danger">Excluir</button></a>
                         </div>
 
                     </div>
